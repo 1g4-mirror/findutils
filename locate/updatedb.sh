@@ -123,17 +123,17 @@ getuid() {
     id | cut -d'(' -f 1 | cut -d'=' -f2
 }
 
-# figure out if su supports the -s option
+# figure out if the switch-user tool supports the -s option
 select_shell() {
-    if su "$1" -s $SHELL -c false < /dev/null  ; then
+    if $updatedbuserchange "$1" -s $SHELL -c false < /dev/null  ; then
 	# No.
 	echo ""
     else
-	if su "$1" -s $SHELL -c true < /dev/null  ; then
+	if $updatedbuserchange "$1" -s $SHELL -c true < /dev/null  ; then
 	    # Yes.
 	    echo "-s $SHELL"
         else
-	    # su is unconditionally failing.  We won't be able to
+	    # Unconditional failure.  We won't be able to
 	    # figure out what is wrong, so be conservative.
 	    echo ""
 	fi
@@ -282,6 +282,12 @@ else
   prunefs_exp=''
 fi
 
+if which runuser >/dev/null 2>&1; then
+    updatedbuserchange=runuser
+else
+    updatedbuserchange=su
+fi
+
 # Make and code the file list.
 # Sort case insensitively for users' convenience.
 
@@ -293,7 +299,7 @@ cd "$changeto"
 if test -n "$SEARCHPATHS"; then
   if [ "$LOCALUSER" != "" ]; then
     # : A1
-    su $LOCALUSER `select_shell $LOCALUSER` -c \
+    $updatedbuserchange $LOCALUSER `select_shell $LOCALUSER` -c \
     "$find $SEARCHPATHS $FINDOPTIONS \
      \\( $prunefs_exp \
      -type d -regex '$PRUNEREGEX' \\) -prune -o $print_option"
@@ -309,7 +315,7 @@ if test -n "$NETPATHS"; then
 myuid=`getuid`
 if [ "$myuid" = 0 ]; then
     # : A3
-    su $NETUSER `select_shell $NETUSER` -c \
+    $updatedbuserchange $NETUSER `select_shell $NETUSER` -c \
      "$find $NETPATHS $FINDOPTIONS \\( -type d -regex '$PRUNEREGEX' -prune \\) -o $print_option" ||
     exit $?
   else

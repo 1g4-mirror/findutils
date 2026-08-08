@@ -2,6 +2,11 @@ GNU findutils NEWS - User visible changes.      -*- outline -*- (allout)
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Improvements
+
+  The updatedb script now prefers the runuser(1) tool over su(1) if the former
+  is installed.
+
 ** Bug Fixes
 
   Xargs now issues an error when the argument to -L, -l or -n is

@@ -85,13 +85,15 @@ Default is system-dependent.  In Debian GNU/Linux, the default
 is /var/cache/locate/locatedb.
 .TP
 .B \-\-localuser=\fIuser\fP
-The user to search non-network directories as, using \fBsu\fP(1).
+The user to search non-network directories as, using \fBrunuser\fP(1) or
+\fBsu\fP(1), preferring the former.
 Default is to search the non-network directories as the current user.
 You can also use the environment variable \fBLOCALUSER\fP to set this user.
 .TP
 .B \-\-netuser=\fIuser\fP
-The user to search network directories as, using \fBsu\fP(1).
-Default is \fBdaemon\fP.
+The user to search network directories as, using \fBrunuser\fP(1) or
+\fBsu\fP(1), preferring the former.
+Default user is \fBdaemon\fP.
 You can also use the environment variable \fBNETUSER\fP to set this user.
 .TP
 .B \-\-dbformat=F

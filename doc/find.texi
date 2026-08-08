@@ -3955,13 +3955,15 @@ The database file to build.  The default is system-dependent, but
 when this document was formatted it was @file{@value{LOCATE_DB}}.
 
 @item --localuser=@var{user}
-The user to search the non-network directories as, using @code{su}.
+The user to search the non-network directories as, using @code{runuser} or
+@code{su}, preferring the former.
 Default is to search the non-network directories as the current user.
 You can also use the environment variable @env{LOCALUSER} to set this user.
 
 @item --netuser=@var{user}
-The user to search network directories as, using @code{su}.  Default
-@code{user} is @code{daemon}.  You can also use the environment variable
+The user to search network directories as, using @code{runuser} or
+@code{su}, preferring the former.
+Default @var{user} is @code{daemon}.  You can also use the environment variable
 @env{NETUSER} to set this user.
 
 @item --dbformat=@var{FORMAT}
