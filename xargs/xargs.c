@@ -1768,7 +1768,10 @@ wait_for_proc (bool all, unsigned int minreap)
       child_error =
         deferred_exit_status >
         child_error ? deferred_exit_status : child_error;
-      exit (child_error);
+      /* With ALL, the atexit handler wait_for_proc_all () is the caller,
+         and a second exit () is undefined.  It ends with _exit ().  */
+      if (!all)
+        exit (child_error);
     }
 }
 
